@@ -10,36 +10,38 @@ namespace Ninth_Task
     {
 
         private int data;//иформационное поле элемента списка (строка)
-        public BinList next;//адресное поле элемента списка (указывает на следующий элемент)
-        public BinList prev;//адресное поле элемента списка (указывает на предыдущий элемент)
+        private BinList next;//адресное поле элемента списка (указывает на следующий элемент)
+        private BinList prev;//адресное поле элемента списка (указывает на предыдущий элемент)
+
         public int Data
         {
             get { return data; }
-        }
+        }//Свойство информационного поля
         public BinList Next
         {
             get { return next; }
             set { next = value; }
-        }
+        }//свойство next
         public BinList Prev
         {
             get { return prev; }
             set { prev = value; }
-        }
-        public BinList()
+        }//свойство prev
+
+        public BinList()//Создание пустого элемента  списка
         {
             data = 0;
             next = null;
             prev = null;
-        }//Создание пустого элемента  списка
-        public BinList(int d)
+        }
+        public BinList(int d)//Создание элемента списка  
         {
             data = d;
             next = null;
             prev = null;
-        }//Создание элемента списка       
+        }
 
-        public static BinList Add(int size)
+        public static BinList Create(int size)//Создание списка добавлением элементов в конец списка  
         {
 
             int info = 1;
@@ -55,31 +57,44 @@ namespace Ninth_Task
                 temp = NewElem;
             }
             return beg;
-        }//Создание списка добавлением элементов в конец списка  
-        public static BinList Ydalenie(BinList beg, int number)
+        }
+        public BinList Remove(int number)//Удаление элемента списка с указанным информационным полем
         {
-            if (beg == null)
+
+            BinList temp = this;
+            do
             {
-                Console.WriteLine("Список пуст");
-                return null;
+                if (temp.Data == number)
+                {
+                    if (temp.Prev == null && temp.Next == null) { return null; }
+                    if (temp.Prev == null) { this.Prev = null; return temp.Next; }
+                    if (temp.Next == null) { temp.Prev.Next = null; return this; }
+                    temp.Prev.Next = temp.Next; temp.Next.Prev = temp.Prev; return this;
+                }
+                temp = temp.Next;
             }
-            if (number == 1)
+            while (temp != null);
+
+            Console.WriteLine("В списке нет элементов с таким информационным полем");
+            return this;
+        }
+        public void Search(int number)//Поиск элемента списка с указанным информационным полем
+        {
+            int count = 1;
+            BinList temp = this;
+            do
             {
-                beg = beg.next;
-                return beg;
+                if (temp.Data == number)
+                {
+                    Console.WriteLine("Информационнон поле {0} имеет элемент номер {1}", number, count); return;
+                }
+                temp = temp.Next;
+                count++;
             }
-            BinList p = beg;
-            for (int i = 1; i < number - 1 && p != null; i++)
-                p = p.next;
-            if (p == null)
-            {
-                Console.WriteLine("Размер списка меньше введённого числа");
-                return beg;
-            }
-            p.next = p.next.next;
-            p.next.next.prev = p;
-            return beg;
-        }//Удаление элемента списка с указанным номером
+            while (temp != null);
+
+            Console.WriteLine("В списке нет элементов с таким информационным полем");
+        }
         public static void ShowList(BinList beg)
         {
             if (beg == null)
@@ -99,6 +114,6 @@ namespace Ninth_Task
         public override string ToString()
         {
             return data + " ";
-        }
+        }//Перегрузка ToString()
     }
 }
