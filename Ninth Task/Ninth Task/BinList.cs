@@ -67,7 +67,7 @@ namespace Ninth_Task
                 if (temp.Data == number)
                 {
                     if (temp.Prev == null && temp.Next == null) { return null; }
-                    if (temp.Prev == null) { this.Prev = null; return temp.Next; }
+                    if (temp.Prev == null) { temp = temp.next; temp.Prev = null; return temp; }
                     if (temp.Next == null) { temp.Prev.Next = null; return this; }
                     temp.Prev.Next = temp.Next; temp.Next.Prev = temp.Prev; return this;
                 }
